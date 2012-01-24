@@ -7,7 +7,7 @@
 <div id="revision">
   <%- if @show_diff -%>
     <p class="show_diff">  
-        Showing changes from revision #<%= @page.rev_ids.size - 1 %> to #<%= @page.rev_ids.size %>:  
+        Zeige Bearbeitungen von Revision #<%= @page.revisions.size - 1 %> bis #<%= @page.revisions.size %>:  
         <ins class="diffins">Added</ins> | <del class="diffdel">Removed</del> | <del class="diffmod">Chan</del><ins class="diffmod">ged</ins>  
     </p>
     <%= @renderer.display_diff %>
@@ -16,9 +16,11 @@
   <%- end -%>
 </div>
 
-<div class="byline">
-  <%= @page.revisions? ? "Revised" : "Created" %> on <%= format_date(@page.revised_at) %> 
-  by <%= author_link(@page) %>
+<section id="wikiedit">
+<div class="byline small">
+  <%= render :partial => 'inbound_links' %>
+  <%= @page.revisions? ? "Überarbeitet" : "Erstellt" %> am <%= format_date(@page.revised_at) %> 
+  von <%= author_link(@page) %>
   <%= "(#{@page.author.ip})" if @page.author.respond_to?(:ip) %>
   <% if @web.count_pages? %>
     <% total_chars = @page.content.length %>
@@ -26,13 +28,12 @@
   <% end %>
 </div>
 
-<div class="navigation navfoot">
-
-  <%= raw navigation_menu_for_page.join(' | ') %>
-  
-  <span class="views">
-    | Views: 
-    <%= link_to('Print',
+<ul id="EditWikiLinks" class="clearfix">
+	<li><%= raw navigation_menu_for_page.join('</li><li>') %></li>
+<!--
+  <li>
+    Ansichten: 
+    <%= link_to('Drucken',
             { :web => @web.address, :action => 'print', :id => @page.name },
             { :accesskey => 'p', :id => 'view_print', :rel => 'nofollow' }) %>
   <%- if @web.markup == :markdownMML or @web.markup == :markdown or @web.markup == :markdownPNG -%>
@@ -46,9 +47,11 @@
    <%- end -%>
   <%- end -%>
     |
-    <%= link_to 'Source', {:web => @web.address, :action => 'source', :id => @page.name}, 
+    <%= link_to 'Quelltext', {:web => @web.address, :action => 'source', :id => @page.name}, 
             {:id => 'view_source', :rel => 'nofollow' } %>
-  </span>
+  </li>
+-->
+</ul>
 
-  <%= render :partial => 'inbound_links' %>
-</div>
+</section>
+

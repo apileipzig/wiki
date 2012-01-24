@@ -1,13 +1,8 @@
 <%- 
-  @title = "Creating #{WikiWords.separate(@page_name).escapeHTML}".html_safe
+  @title = "Die Seite \"#{WikiWords.separate(@page_name).escapeHTML}\" anlegen".html_safe
   @content_width = 720
   @hide_navigation = true
 -%>
-
-<div id="MarkupHelp">
-<%= render(:file => "#{@web.markup}_help") -%>
-<%= render(:file => 'wiki_words_help') unless @web.brackets_only? -%>
-</div>
 
 <div id="editForm">
 	<% form_tag({ :action => 'save', :web => @web.address, :id => @page_name },
@@ -16,12 +11,18 @@
 	    <textarea name="content" id="content" rows="24" cols="60"><%= h(flash[:content] || 
                      params['content'] ?  params['content'].purify : '' ) %></textarea>
 		<div id="editFormButtons">
-		    <input type="submit" value="Submit" accesskey="s"/> as 
+		    <input style="width:40%;color:black;" type="submit" value="Speichern" accesskey="s"/> als 
 		    <%= text_field_tag :author, @author, 
 		        :onfocus => "this.value == 'AnonymousCoward' ? this.value = '' : true;",
-		        :onblur  => "this.value == '' ? this.value = 'AnonymousCoward' : true" %> 
+		        :onblur  => "this.value == '' ? this.value = 'AnonymousCoward' : true",
+						:style => "width:40%;" %> 
         </div>
 	<%- end -%>
+</div>
+
+<div id="MarkupHelp">
+<%= render(:file => "#{@web.markup}_help") -%>
+<%= render(:file => 'wiki_words_help') unless @web.brackets_only? -%>
 </div>
 
 <script type="text/javascript">

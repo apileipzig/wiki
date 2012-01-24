@@ -16,16 +16,11 @@
 </div> <!-- Revision -->
 
 <div class="byline">
-  <%= "Revision from #{format_date(@revision.revised_at)} by" %>
+  <%= "Revision vom #{format_date(@revision.revised_at)} von" %>
   <%= link_to_page @revision.author.purify %>
 </div>
 
 <div class="navigation navfoot">
   <%= raw navigation_menu_for_revision.join(' | ') %>
-    <span class="views">
-    | View: 
-    <%= link_to 'Source', {:web => @web.address, :action => 'source', :id => @page.name, :rev => @revision_number}, 
-            {:id => 'view_source', :rel => 'nofollow' } %>
-  </span>
   <%= render :partial => 'inbound_links' %>
 </div>

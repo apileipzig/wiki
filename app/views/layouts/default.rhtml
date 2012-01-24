@@ -1,102 +1,82 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg-flat.dtd" >
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>
-    <%- if @page and (@page.name == 'HomePage') and (%w( show published print ).include?(params['action'])) -%>
+<%= render :file => 'layouts/header.html' %>	
+		<section id="Page" class="container pane-lighter" role="main">
+		<!-- start the original  WIKI-Nav -->		
+		<!-- <div class="clear onepix">&nbsp;</div> -->
+		<%= render(:file => 'navigation') unless @web.nil? || @hide_navigation %>
+		<!-- End of WIKI-Nav-->
+		 	<article class="span-8">
+		 		<!--<header>
+	 			<h1><%- if @page and (@page.name == 'HomePage') and %w( show published print ).include?(@action_name) -%>
       <%= h(@web.name) + (@show_diff ? ' (changes)' : '') %>
     <%- elsif @web -%>
-      <%= @title %> in <%= h @web.name %>
-    <%- else -%>
-      <%= @title %>
-    <%- end -%>
-  </title>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="robots" content="<%= @robots_metatag_value %>" />
-  
-  <%= javascript_include_tag 'page_helper' %>
- 
-  <%= stylesheet_link_tag 'instiki', :media => 'all'  unless @inline_style %>
-  <%= stylesheet_link_tag 'syntax', :media => 'all'  unless @inline_style %>
-  <style type="text/css">
-    h1#pageName, div.info, .newWikiWord a, a.existingWikiWord, .newWikiWord a:hover, [actiontype="toggle"]:hover, #TextileHelp h3 { 
-      color: #<%= @web ? @web.color : "393" %>; 
-    }
-    a:visited.existingWikiWord {
-      color: #<%= darken(@web ? @web.color : "393") %>;
-    }
-    <%= Rails.root.join('public', 'stylesheets', 'instiki.css').read if @inline_style %>
-    <%= Rails.root.join('public', 'stylesheets', 'syntax.css').read if @inline_style %>
-  </style>
-  <%= "<style type='text/css'>#{@style_additions}</style>".html_safe if @style_additions %>
-  <style type="text/css"><!--/*--><![CDATA[/*><!--*/    
-    <%= @web && @web.additional_style ? @web.additional_style.html_safe : '' %>
-  /*]]>*/--></style>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-  <%- if @web -%>
-   <%- if @web.markup == :markdownMML -%>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      MathML: { useMathMLspacing: true },
-      "HTML-CSS": { scale: 90 }
-    });
-    if (window._onload_fired_) MathJax.Hub.Startup.onload();
-  </script>
-  <script type="text/javascript">
-    if (!(Prototype.Browser.Gecko || navigator.userAgent.match(/MathPlayer/))) {
-      var s = document.createElement('script');
-      s.src = "<%= compute_public_path('MathJax.js', 'MathJax').split('?')[0] %>?config=MML_HTMLorMML";
-      document.querySelector('head').appendChild(s);
-      window.addEventListener("load", function(){window._onload_fired_ = true} , false);        
-    };
-  </script>
-   <%- end -%>
-  	<%= auto_discovery_link_tag(:atom, {:controller => 'wiki', :web => @web.address, :action => 'atom_with_headlines'},
-  	      :title => 'Atom with headlines') %>
-  	<%= auto_discovery_link_tag(:atom, {:controller => 'wiki', :web => @web.address, :action => 'atom_with_content'},
-  	      :title => 'Atom with full content') %>
-  <%- end -%>
-</head>
-
-<body>
-
-<div id="Container">
-<div id="Content">
-  <h1 id="pageName">
-    <%= render(:file => 'svg_logo') if xhtml_enabled? %>
-    <%- if @page and (@page.name == 'HomePage') and %w( show published print ).include?(@action_name) -%>
-      <%= h(@web.name) + (@show_diff ? ' (changes)' : '') %>
-    <%- elsif @web -%>
-      <span class="webName"><%= @web.name %></span><br />
       <%= @title %>
     <%- else -%>
       <%= @title %>
-    <%- end %>
-  </h1>
-
-<%= render(:file => 'navigation') unless @web.nil? || @hide_navigation %>
+    <%- end %></h1>
+				</header>-->
 
 <%- if flash[:info] -%>
-  <div class="info"><%= escape_preserving_linefeeds flash[:info] %></div>
+  <div class="notice"><%= escape_preserving_linefeeds flash[:info] %></div>
 <%- end -%>
 
 <%- if @error or flash[:error] -%> 
-    <div class="errorExplanation"><%= escape_preserving_linefeeds(@error || flash[:error]) %></div>
+    <div class="error"><%= escape_preserving_linefeeds(@error || flash[:error]) %></div>
 <%- end -%>
+				<%= @content_for_layout %>
+			</article >
+			
+			<aside class="span-4 last">
+					<h1>Inhalt</h1>
+					<section class="submenu">
+					 <h1 class="hide">Unter-Navigation</h1>
+					 <ul class="subnav">
+					 	<li><a href="/" title="Gehe zur Seite: API.LEIPZIG-Startseite">API.LEIPZIG-Startseite</a>
+					 	<li><a href="/wiki/show/HomePage" title="Gehe zur Seite: Wiki-Startseite">Wiki-Startseite</a>
+					 	<li><a href="/wiki/show/Leipziger-Agenda-21" title="Gehe zur Seite: Leipziger Agenda 21">Leipziger Agenda 21</a></li>
+					 	<li><a href="/wiki/show/Was-ist-die-API-LEIPZIG" title="Gehe zur Seite: Was ist die API.LEIPZIG?">Was ist die API.LEIPZIG?</a></li>
+					 	<!--
+					 	<li class="current"><a href="#" title="Gehe zur Seite: Interne Links">Interne Links</a>
+					 		<ul>
+					 			<li><a class="current" href="#" title="Textlinks">Textlinks</a></li>
+					 			<li><a href="#" title="Warum das Ganze">Interne Verständigung</a></li>
+					 			<li><a href="#" title="Strukturierung">Strukturierung</a></li>
+								<li><a href="#" title="Offene Fragen: Wer bekommt den Key">Offene Fragen: Wer bekommt den Key?</a></li>
+					 		</ul>
+					 	</li>
+					 	-->
+					 	<li><a href="/wiki/show/FAQ" title="Gehe zur Seite: Häufig gestellte Fragen">FAQ</a></li>
+					 	<li><a href="/wiki/show/Datenquellen" title="Gehe zur Seite: Datenquellen">Datenquellen</a></li>
+					 	<li><a href="/wiki/show/Anwendungen" title="Gehe zur Seite: Anwendungen">Anwendungen</a></li>
+					 	<li><a href="/wiki/show/Dokumentation" title="Gehe zur Seite: Dokumentation">Dokumentation</a>
+<!--
+					 		<ul>
+					 			<li><a href="#" title="Entstehung der API.LEIPZIG">Entstehung API.LEIPZIG</a></li>
+					 			<li><a href="#" title="Warum das Ganze">Warum das Ganze?</a></li>
+					 			<li><a href="#" title="Aussichten">Aussichten</a></li>
+								<li><a href="#" title="Beteilgte an der API">Kreative Köpfe hinter API.LEIPZIG</a></li>
+					 		</ul>
+-->
+					 	</li>
+					 	<li><a href="/wiki/show/Beteiligte" title="Gehe zur Seite: Beteiligte">Beteiligte</a>
+					 	<li><a href="/wiki/show/Nutzungsbedingungen" title="Gehe zur Seite: Nutzungsbedingungen">Nutzungsbedingungen</a>
+					 </ul>
+					</section>
+<!--					 
+					<section class="Banner">
+						<hgroup>
+						<h1>Normaler Banner</h1>
+						<h2>Werbung? Mitglieder?</h2>
+						</hgroup>
+					</section>
+					
+					<section class="Banner success">
+						<p>Eigentlich ein Banner. Aber diese Banner (mit eigenem Style) in der Sidebar, können mit diversen anderen Styles (Blueprint: success, error, notice, info) überschrieben werden! good to know!</p>
+					</section>	
+-->					
+			</aside>
+		</section>
+    <section>
+<%= javascript_include_tag 'page_helper' %>
+<%= javascript_include_tag :defaults %>
+<%= render :file => 'layouts/footer.html' %>
 
-<%= @content_for_layout %>
-
-<%- if @show_footer -%>
-    <div id="footer">
-    <div>This site is running on <a href="http://golem.ph.utexas.edu/instiki/show/HomePage">Instiki <%= "#{Instiki::VERSION::STRING}" %></a></div>
-    <div>Powered by <a href="http://rubyonrails.com/">Ruby on Rails</a>  <%= "#{Rails::VERSION::STRING}" %></div>
-    </div>
-<%- end -%>
-
-</div> <!-- Content -->
-
-</div> <!-- Container -->
-
-</body>
-</html>
