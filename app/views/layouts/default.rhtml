@@ -1,30 +1,21 @@
-<%= render :file => 'layouts/header.html' %>	
+<%= render :file => 'layouts/header.html' %>
 		<section id="Page" class="container pane-lighter" role="main">
-		<!-- start the original  WIKI-Nav -->		
+		<!-- start the original  WIKI-Nav -->
 		<!-- <div class="clear onepix">&nbsp;</div> -->
 		<%= render(:file => 'navigation') unless @web.nil? || @hide_navigation %>
 		<!-- End of WIKI-Nav-->
 		 	<article class="span-8">
-		 		<!--<header>
-	 			<h1><%- if @page and (@page.name == 'HomePage') and %w( show published print ).include?(@action_name) -%>
-      <%= h(@web.name) + (@show_diff ? ' (changes)' : '') %>
-    <%- elsif @web -%>
-      <%= @title %>
-    <%- else -%>
-      <%= @title %>
-    <%- end %></h1>
-				</header>-->
 
 <%- if flash[:info] -%>
   <div class="notice"><%= escape_preserving_linefeeds flash[:info] %></div>
 <%- end -%>
 
-<%- if @error or flash[:error] -%> 
+<%- if @error or flash[:error] -%>
     <div class="error"><%= escape_preserving_linefeeds(@error || flash[:error]) %></div>
 <%- end -%>
 				<%= @content_for_layout %>
 			</article >
-			
+
 			<aside class="span-4 last">
 					<h1>Inhalt</h1>
 					<section class="submenu">
@@ -61,18 +52,18 @@
 					 	<li><a href="/wiki/show/Nutzungsbedingungen" title="Gehe zur Seite: Nutzungsbedingungen">Nutzungsbedingungen</a>
 					 </ul>
 					</section>
-<!--					 
+<!--
 					<section class="Banner">
 						<hgroup>
 						<h1>Normaler Banner</h1>
 						<h2>Werbung? Mitglieder?</h2>
 						</hgroup>
 					</section>
-					
+
 					<section class="Banner success">
 						<p>Eigentlich ein Banner. Aber diese Banner (mit eigenem Style) in der Sidebar, können mit diversen anderen Styles (Blueprint: success, error, notice, info) überschrieben werden! good to know!</p>
-					</section>	
--->					
+					</section>
+-->
 			</aside>
 		</section>
     <section>

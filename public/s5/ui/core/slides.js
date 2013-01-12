@@ -338,7 +338,7 @@ function clicker(e) {
 		target = window.event.srcElement;
 		e = window.event;
 	} else target = e.target;
-	if (target.href != null || hasValue(target.rel, 'external') || isParentOrSelf(target, 'controls') || isParentOrSelf(target,'embed') || isParentOrSelf(target,'object')) return true;
+	if (target.href != null || hasValue(target.rel, 'external') || isParentOrSelf(target, 'controls') || isParentOrSelf(target,'embed') || isParentOrSelf(target,'object') || ['object','OBJECT','embed','EMBED'].indexOf(target.tagName) != -1) return true;
 	if (!e.which || e.which == 1) {
 		if (!incrementals[snum] || incpos >= incrementals[snum].length) {
 			go(1);
@@ -808,29 +808,6 @@ function windowChange() {
 	fontScale();
 }
 
-function fixRunIn() {
-// work around lack of gecko support for display:run-in
-  var re = /^num_|\s+num_|^un_|\s+un_|proof/;
-  $$('div > h6').each(function(element) {
-     if(re.test($(element.parentNode).className)) {
-      var new_span = new Element('span').update(element.textContent);
-      new_span.addClassName('theorem_label');
-      var next_el = element.next().firstChild;
-      next_el.parentNode.insertBefore(new_span, next_el);
-      var period = new Element('span').update('. ');
-      next_el.parentNode.insertBefore(period, next_el);
-      element.remove();
-     }
-  });
-// add tombstone to proof, since gecko doesn't support :last-child properly
-
- $$('div.proof').each(function(element) {
-     var l = element.childElements().length -1;
-     var span = new Element('span').update('\u00a0\u00a0\u25ae');
-     element.childElements()[l].insert(span);
-    })
-}
-
 function startup() {
 	defaultCheck();
 	createControls();  // hallvord
@@ -841,7 +818,6 @@ function startup() {
 	fixLinks();
 	externalLinks();
 	fontScale();
-	fixRunIn();
 	if (!isOp) notOperaFix();
 	slideJump();
 	if (defaultView == 'outline') {
